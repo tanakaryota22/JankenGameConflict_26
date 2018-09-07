@@ -8,13 +8,17 @@ public class JankenController {
 
      private final Random random = new Random();
      private  static final String[] hands = {
-         "グー", "チョキ", "パー"
-     };
+             "グー", "チョキ", "パー"
+         };
 
-      private Label cpuHandLabel;
-      private Label myHandLabel;
-      private Label resultLabel;
-      private Label scoreLabel;
+          private int win = 0;
+          private int draw = 0;
+          private int lose = 0;
+
+          private Label cpuHandLabel;
+          private Label myHandLabel;
+          private Label resultLabel;
+          private Label scoreLabel;
       //コンストラクタ
       //引数  3つのラベル
       public JankenController(Label cpuHandLabel, Label myHandLabel,
@@ -54,12 +58,22 @@ public class JankenController {
      private String getResult(int myHand, int cpuHand) {
          int r = (myHand - cpuHand + 3) % 3;
 
+         if(r == 2) {
+           win++;
+         } else if(r==1) {
+           lose++;
+         } else {
+           draw++;
+         }
+
          return (r == 2) ? "あなたの勝ち！" : ((r == 1) ? "あなたの負け！" : "あいこ！");
      }
+
      //自分の手・相手の手・じゃんけんの結果を各ラベルに表示
      private void updateLabels(int myHand, int cpuHand) {
          cpuHandLabel.setText("コンピュータの手: " + hands[cpuHand]);
          myHandLabel.setText("あなたの手: " + hands[myHand]);
          resultLabel.setText("結果: " + getResult(myHand, cpuHand));
+         scoreLabel.setText(" Win:"+win+" Draw:"+draw+" Lose:"+lose);
      }
 }
